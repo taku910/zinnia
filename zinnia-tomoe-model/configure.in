@@ -1,0 +1,27 @@
+AC_INIT(handwriting-ja.model.txt)
+AM_INIT_AUTOMAKE(zinnia-tomoe, 0.6.0-20080712)
+AC_PROG_INSTALL
+AC_SUBST(datarootdir)       
+
+AC_ARG_WITH(
+   zinna-convert,
+   [  --with-zinnia-convert=PATH  set zinnia_convert location [search path]],
+   AC_MSG_RESULT(using $with_zinnia_convert for mecab-config)
+   ZINNIA_CONVERT=$with_zinnia_convert,
+   [AC_PATH_PROGS(ZINNIA_CONVERT, zinnia_convert, no)]
+)
+
+if test $ZINNIA_CONVERT = "no";
+then
+   AC_MSG_ERROR(zinnia-convert is not found in your system)
+fi
+
+AC_SUBST(ZINNIA_CONVERT)
+
+ZINNIA_TEXT_MODEL="handwriting-ja.model.txt handwriting-zh_CN.model.txt"
+AC_SUBST(ZINNIA_TEXT_MODEL)
+
+ZINNIA_GENDATA="handwriting-ja.model handwriting-zh_CN.model"
+AC_SUBST(ZINNIA_GENDATA)
+
+AC_OUTPUT([Makefile])

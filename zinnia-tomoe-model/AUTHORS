@@ -1,0 +1,17 @@
+Authors:
+  Kouhei Sutou  <kou@cozmixng.org>
+  Hiroyuki Ikezoe <poincare@ikezoe.net>
+  Takuro Ashie <ashie@homa.ne.jp>
+
+Simplified Chinese Dictionary and stroke editor:
+  Hu Zheng <zhu@redhat.com>
+  Huang Peng <phuang@redhat.com>
+
+Porting to Ruby and C (Not in active):
+  Hiroaki Nakamura <hnakamur@good-day.co.jp>
+
+Porting to Xml database (Not in active):
+  Juernjakob Harder <juernjakob.harder@gmail.com>
+
+Original code written in perl (Not in active):
+  Hiroyuki Komatsu <komatsu@taiyaki.org>

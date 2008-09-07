@@ -1,0 +1,37 @@
+CC = cl
+CXXC = cl
+CFLAGS =  /O2 /GA /Ob2 /nologo /W3 /EHsc /MT
+LDFLAGS = ADVAPI32.LIB
+DEFS =  -D_CRT_SECURE_NO_DEPRECATE -DDLL_EXPORT -DHAVE_WINDOWS_H   -DVERSION="\"@VERSION@\"" -DPACKAGE="\"@PACKAGE@\""
+
+INC = -I. -I..
+DEL = del
+
+OBJ = svm.obj libzinnia.obj character.obj feature.obj recognizer.obj trainer.obj param.obj sexp.obj
+
+.c.obj:
+	$(CXXC) $(CFLAGS) $(INC) $(DEFS) -c $<
+
+.cpp.obj:
+	$(CXXC) $(CFLAGS) $(INC) $(DEFS) -c $<
+
+.c.obj:
+	$(CC) $(CFLAGS) $(INC) $(DEFS) -c  $<
+
+all: libzinnia zinnia zinnia_learn zinnia_convert
+
+libzinnia: $(OBJ)
+        $(CXXC) /GD /LD $(LDFLAGS) /Fe$@.dll $(OBJ) /link /dll
+
+zinnia: $(OBJ) zinnia.obj
+	$(CXXC) $(LDFLAGS) /Fe$@.exe zinnia.obj libzinnia.lib
+
+zinnia_learn: $(OBJ) zinnia_learn.obj
+	$(CXXC) $(LDFLAGS) /Fe$@.exe zinnia_learn.obj libzinnia.lib
+
+zinnia_convert: $(OBJ) zinnia_convert.obj
+	$(CXXC) $(LDFLAGS) /Fe$@.exe zinnia_convert.obj libzinnia.lib
+
+clean:
+        del *.obj zinnia zinnia_learn zinnia_convert
+

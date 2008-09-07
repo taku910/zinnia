@@ -1,0 +1,349 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<link rel=stylesheet href="zinnia.css" media=all>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Zinnia: Online hand writing recognition system with machine learning</title>
+</head>
+<body>
+<h1>Zinnia: Online hand recognition system with machine learning</h1>
+<p><a href="index-ja.html">[Japanese]</a><a href="index.html">[English]</a></p>
+<p>
+Zinnia is a simple, customizable and portable online hand recognition system
+based on Support Vector Machines. Zinnia simply receives user pen strokes
+as a sequence of coordinate data and outputs n-best characters sorted by
+SVM confidence. To keep portability, Zinnia doesn't have any rendering
+functionality. In addition to recognition, Zinnia provides training
+module that allows us to create any hand-written recognition systems with low-cost.
+</p>
+
+<h2>Features</h2>
+<ul>
+<li>Practical accuracy with support vector machines
+<li>Portable and compact design -- POSIX/Windows (depending on C++/STL)
+<li>Thread-safe C/C++/Perl/Ruby/Python libraries
+<li>Practical recognition speed (50--100char / sec)
+<li>Fast training
+</ul>
+
+<h2>Download</h2>
+<ul>
+     <li><b>Zinnia</b> is free software; you can redistribute it
+      and/or modify it under the terms of the <a
+href="http://www.opensource.org/licenses/bsd-license.php">new BSD
+      License</a></li>
+<li><b>Zinnia</b> main program
+<h3><a name="source">Source</a></h3>
+<ul>
+<li>zinnia-0.01.tar.gz:<a href="src">download</a>
+<li>No recognition models are included.
+</ul>
+
+<h3><a name="win">Binary package for MS-Windows</a></h3>
+<ul>
+<li>zinnia-0.01.zip:<a href="src">Download</a>
+</ul>
+
+<li><b>Zinnia</b> Recognition models
+<h3>Zinnia-Tomoe</h3>
+<ul>
+<li>Model files trained with Tomoe data: <a href="src">download</a></li>
+<li>Licence of Zinnia-tomoe is the same as that of Tomoe</li>
+</ul>
+</ul>
+
+<h2>Install</h2>
+<h3>UNIX</a></h3>
+<pre>
+ % tar zxfv zinnia-X.X.tar.gz
+ % cd zinnia-X.X
+ % ./configure
+ % make
+ % su
+ # make install
+</pre>
+</li>
+
+<p>Install recognition models</p>
+<pre>
+% tar zxfv zinnia-tomoe-XXXX.tar.gz
+% zinnia-tomoe-XXXX
+% ./configure
+% make
+% su
+# make install
+</pre>
+
+<h3>Windows</h3>
+<p>DLL and executable are included in zip file.
+No recognition models are included. Run the following command after
+putting model files in zip archived directory.
+<pre>
+bin\zinnia_convert.exe handwriting-ja.model.txt handwriting-ja.model
+bin\zinnia_convert.exe handwriting-zh_CN.model.txt handwriting-zh_CN.model
+</pre>
+
+
+<h2>Usage (Recognition)</h2>
+<p>Zinnia provides C/C++ libraries. Perl/Ruby/Python
+libraries are also available with SWIG </p>
+<h3>Sample code with C</h3>
+<pre>
+#include &lt;stdio.h&gt;
+#include "zinnia.h"
+
+int main(int argc, char **argv) {
+  size_t i;
+  zinnia_recognizer_t *recognizer;
+  zinnia_character_t *character;
+  zinnia_result_t *result;
+
+  recognizer = zinnia_recognizer_new();
+
+  if (!zinnia_recognizer_open(recognizer, "/usr/local/lib/zinnia/model/tomoe/handwriting-ja.model")) {
+    fprintf(stderr, "ERROR: %s\n", zinnia_recognizer_strerror(recognizer));
+    return -1;
+  }
+
+  zinnia_character_t  *character  = zinnia_character_new();
+  zinnia_character_clear(character);
+  zinnia_character_set_width(character, 300);
+  zinnia_character_set_height(character, 300);
+  zinnia_character_add(character, 0, 51, 29);
+  zinnia_character_add(character, 0, 117, 41);
+  zinnia_character_add(character, 1, 99, 65);
+  zinnia_character_add(character, 1, 219, 77);
+  zinnia_character_add(character, 2, 27, 131);
+  zinnia_character_add(character, 2, 261, 131);
+  zinnia_character_add(character, 3, 129, 17);
+  zinnia_character_add(character, 3, 57, 203);
+  zinnia_character_add(character, 4, 111, 71);
+  zinnia_character_add(character, 4, 219, 173);
+  zinnia_character_add(character, 5, 81, 161);
+  zinnia_character_add(character, 5, 93, 281);
+  zinnia_character_add(character, 6, 99, 167);
+  zinnia_character_add(character, 6, 207, 167);
+  zinnia_character_add(character, 6, 189, 245);
+  zinnia_character_add(character, 7, 99, 227);
+  zinnia_character_add(character, 7, 189, 227);
+  zinnia_character_add(character, 8, 111, 257);
+  zinnia_character_add(character, 8, 189, 245);
+
+  result = zinnia_recognizer_classify(recognizer, character, 10);
+  if (result == NULL) {
+    fprintf(stderr, "%s\n", zinnia_recognizer_strerror(recognizer));
+    return -1;
+  }
+
+
+  for (i = 0; i &lt; zinnia_result_size(result); ++i) {
+    fprintf(stdout, "%s\t%f\n",
+            zinnia_result_value(result, i),
+            zinnia_result_score(result, i));
+  }
+
+  zinnia_result_destroy(result);
+  zinnia_character_destroy(character);
+  zinnia_recognizer_destroy(recognizer);
+
+  return 0;
+}
+</pre>
+</p>
+<pre>
+% gcc example.c -lzinnia -o zinnia_sample
+% ./zinnia_sample
+</pre>
+<h3>Comment</h3>
+<ul>
+<li>create recognizer
+<li>load model file
+<li>create character object
+<li>clear character
+<li>set canvas size
+<li>specify stroke data (number of stroke, x-axis, y-axis)
+<li>do recognition.  result object is created. The last arg means the maximum size of characters requested
+<li>print recognized character with score. results are sorted by score
+<li>delete result object
+<li>delete character object
+<li>delete recognizer object
+</ul>
+
+<h3>Sample code with C++</h3>
+<pre>
+#include &lt;iostream&gt;
+#include "zinnia.h"
+
+int main(int argc, char **argv) {
+  zinnia::Recognizer *recognizer = zinnia::Recognizer::create();
+  if (!recognizer-&gt;open("/usr/local/lib/zinnia/model/tomoe/handwriting-ja.model")) {
+    std::cerr &lt;&lt; recognizer-&gt;what() &lt;&lt; std::endl;
+    return -1;
+  }
+
+  zinnia::Character *character = zinnia::Character::create();
+  character-&gt;clear();
+  character-&gt;set_width(300);
+  character-&gt;set_height(300);
+  character-&gt;add(0, 51, 29);
+  character-&gt;add(0, 117, 41);
+  character-&gt;add(1, 99, 65);
+  character-&gt;add(1, 219, 77);
+  character-&gt;add(2, 27, 131);
+  character-&gt;add(2, 261, 131);
+  character-&gt;add(3, 129, 17);
+  character-&gt;add(3, 57, 203);
+  character-&gt;add(4, 111, 71);
+  character-&gt;add(4, 219, 173);
+  character-&gt;add(5, 81, 161);
+  character-&gt;add(5, 93, 281);
+  character-&gt;add(6, 99, 167);
+  character-&gt;add(6, 207, 167);
+  character-&gt;add(6, 189, 245);
+  character-&gt;add(7, 99, 227);
+  character-&gt;add(7, 189, 227);
+  character-&gt;add(8, 111, 257);
+  character-&gt;add(8, 189, 245);
+
+  zinnia::Result *result = recognizer-&gt;classify(*character, 10);
+  if (!result) {
+     std::cerr &lt;&lt; recognizer-&gt;what() &lt;&lt; std::endl;
+     return -1;
+  }
+  for (size_t i = 0; i &lt; result-&gt;size(); ++i) {
+    std::cout &lt;&lt; result-&gt;value(i) &lt;&lt; "\t" &lt;&lt; result-&gt;score(i) &lt;&lt; std::endl;
+  }
+  delete result;
+
+  delete character;
+  delete recognizer;
+
+  return 0;
+}
+</pre>
+
+<h3>Sexp representation for character</h3>
+<p>Character class (zinnia_character_t / zinnia::Character) has method
+for an Sexp-based serialization.</p>
+
+<pre>
+(character
+ (width canvas width)
+ (height canvas height)
+ (strokes
+   ((0-th-stroke 0-th-strokey) ... (0-th-stroke 0-th-strokey))
+   ((1-th-stroke 0-th-strokey) ... (1-th-stroke 1-th-strokey))
+   ((2-th-stroke 2-th-strokey) ... (2-th-stroke 2-th-strokey))
+   ...))
+</pre>
+
+<p>Example</p>
+<pre>
+static const char sexp[] = "(character (width 1000)(height 1000)(strokes ((243 273)(393 450))((700 253)(343 486)(280 716)(393 866)(710 880))))";
+zinnia_character_t *character = zinnia_character_new();
+zinnia_character_parse(character, sexp);
+</pre>
+<pre>
+static const char sexp[] = "(character (width 1000)(height 1000)(strokes ((243 273)(393 450))((700 253)(343 486)(280 716)(393 866)(710 880))))";
+zinnia::Character *character = zinnia::Character::create();
+character->parse(sexp);
+</pre>
+
+<h2>Training</h2>
+<p>
+In order to make a training with Zinnia, you need to make a golden
+(training) data. Training data is written in S-expression.
+Generally speaking, more data yields better quality. Zinnia only supports
+batch training so far.</p>
+
+<p>Example</p>
+<pre>
+(character (value あ) (width 300) (height 300) (strokes ((54 58)(249 68)) ((147 10)(145 201)(182 252)) ((224 103)(149 230)(82 240)(53 204)(86 149)(182 139)(240 172)(248 224)(228 250))))
+(character (value い) (width 300) (height 300) (strokes ((56 63)(43 213)(67 259)(94 243)) ((213 66)(231 171)(208 217))))
+(character (value う) (width 300) (height 300) (strokes ((102 35)(187 45)) ((73 121)(167 105)(206 139)(198 211)(135 275))))
+(character (value え) (width 300) (height 300) (strokes ((140 19)(162 38)) ((62 105)(208 100)(51 263)(128 205)(188 268)(260 252))))
+(character (value お) (width 300) (height 300) (strokes ((64 94)(240 98)) ((148 35)(159 129)(140 199)(105 247)(64 228)(101 161)(192 161)(222 223)(189 257)) ((223 49)(253 89))))
+</pre>
+</p>
+
+<p>You might want to look into *.s file in zinnia-tomoe as references</p>
+
+<p>Use zinnia_learn to conduct training</p>
+
+<pre>
+% zinnia_learn train-file model-file
+...
+learning: (8/3033) 8 ....
+learning: (9/3033) 9 ...
+learning: (10/3033) 々 ............
+learning: (11/3033) 〆 ....
+learning: (12/3033) あ ....
+learning: (13/3033) い .......
+learning: (14/3033) う ...............
+learning: (15/3033) え ......................................................................................
+learning: (16/3033) お ......
+learning: (17/3033) か .......
+learning: (18/3033) き .......
+learning: (19/3033) く .......
+</pre>
+
+<p>train-file is a training data and model-file is a model file
+zinnia_learn generates</p>
+
+<p>use zinnia command for testing</p>
+<pre>
+% zinnia -m model-file < test-file
+</pre>
+<p>model-file is a file zinnia_learn generates. text-file is a test data
+written in Sexp format.</p>
+
+<p>Once training completes successfully, model-file.txt (text file)
+and model-file (binary file) will be generated.
+text-model is an architecture-independent format, and model-file is
+an architecture-dependent binary model. Zinnia recognizer can only load
+binary model. zinnia_convert program converts text-model
+into binary model.</p>
+<pre>
+% zinnia_convert model-file.txt model-file
+</pre>
+
+<p>In addition, text-model can be converted into C-header file.</p>
+<pre>
+% zinnia_convert --name=my_model --make_header model-file.txt my_model.h
+</pre>
+
+<p>In order to use a header file, include my_model.h in C/C++ source
+file and load the data using zinnia_recognizer_open_from_ptr().
+my_model(content of mode) and my_model_size(model size) is defined in
+the header file.
+</p>
+
+<pre>
+#include "my_model.h"
+if (!zinnia_recognizer_open_from_ptr(recognizer, my_model, my_model_size)) {
+  /* error */
+}
+</pre>
+
+<h2>Model compression</h2>
+<p>By omitting features having small score, model can be compressed with
+scarifying recognition accuracy.
+<pre>
+% zinnia_convert -c 0.01 model-file.txt model1
+% zinnia_convert -c 0.001 model-file.txt model2
+% ls -h -l model*
+-rw-r--r-- 1 taku taku 3.1M 2008-07-14 12:50 model1
+-rw-r--r-- 1 taku taku  25M 2008-07-14 12:50 model2
+</pre>
+<p>c is a threshold. Default setting 0.001.
+Larger threshold gives more aggressive compression.</p>
+
+<h2>API list</h2>
+<ul>
+<li><a href="doxygen/annotated.html">C++ API</a>
+<li><a href="doxygen/zinnia_8h.html">C API functions</a>
+</ul>
+<p>
+</p>
+</body>
+</html>
