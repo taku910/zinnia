@@ -8,7 +8,7 @@
 //
 //  CRF++ -- Yet Another CRF toolkit
 //
-//  $Id: stream_wrapper.h 1588 2007-02-12 09:03:39Z taku $;
+//  $Id$;
 //
 //  Copyright(C) 2005-2007 Taku Kudo <taku@chasen.org>
 //

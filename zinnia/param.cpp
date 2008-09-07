@@ -8,7 +8,7 @@
 //
 //  CRF++ -- Yet Another CRF toolkit
 //
-//  $Id: param.cpp 1587 2007-02-12 09:00:36Z taku $;
+//  $Id$;
 //
 //  Copyright(C) 2005-2007 Taku Kudo <taku@chasen.org>
 //
