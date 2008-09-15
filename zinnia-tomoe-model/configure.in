@@ -1,5 +1,5 @@
 AC_INIT(handwriting-ja.model.txt)
-AM_INIT_AUTOMAKE(zinnia-tomoe, 0.6.0-20080911)
+AM_INIT_AUTOMAKE(zinnia-tomoe, 0.6.0-20080911, )
 AC_PROG_INSTALL
 AC_SUBST(datarootdir)
 

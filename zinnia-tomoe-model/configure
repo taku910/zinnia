@@ -1976,7 +1976,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=zinnia-tomoe
- VERSION=0.6.0-20080712
+ VERSION=0.6.0-20080911
 
 
 cat >>confdefs.h <<_ACEOF

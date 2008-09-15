@@ -6,3 +6,7 @@ SUFFIXES = .txt .model
 
 @ZINNIA_GENDATA@:
 	@ZINNIA_CONVERT@ $*.model.txt $@
+
+export-package:
+	./upload.pl -p zinnia -n zinnia-tomoe  -r @VERSION@ -f zinnia-tomoe-@VERSION@.tar.bz2
+
