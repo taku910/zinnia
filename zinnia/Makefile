@@ -117,12 +117,12 @@ DIST_ARCHIVES = $(distdir).tar.gz
 GZIP_ENV = --best
 distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /home/taku/trunk/zinnia/missing --run aclocal-1.10
-AMTAR = ${SHELL} /home/taku/trunk/zinnia/missing --run tar
+ACLOCAL = ${SHELL} /home/taku/proj/zinnia/zinnia/missing --run aclocal-1.10
+AMTAR = ${SHELL} /home/taku/proj/zinnia/zinnia/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /home/taku/trunk/zinnia/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/taku/trunk/zinnia/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/taku/trunk/zinnia/missing --run automake-1.10
+AUTOCONF = ${SHELL} /home/taku/proj/zinnia/zinnia/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/taku/proj/zinnia/zinnia/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/taku/proj/zinnia/zinnia/missing --run automake-1.10
 AWK = mawk
 CC = gcc
 CCDEPMODE = depmode=none
@@ -157,7 +157,7 @@ LIBS = -lm -lm -lm
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN_S = ln -s
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/taku/trunk/zinnia/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/taku/proj/zinnia/zinnia/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 NMEDIT = 
 OBJEXT = o
@@ -174,10 +174,10 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = strip
 VERSION = 0.01
-abs_builddir = /home/taku/trunk/zinnia
-abs_srcdir = /home/taku/trunk/zinnia
-abs_top_builddir = /home/taku/trunk/zinnia
-abs_top_srcdir = /home/taku/trunk/zinnia
+abs_builddir = /home/taku/proj/zinnia/zinnia
+abs_srcdir = /home/taku/proj/zinnia/zinnia
+abs_top_builddir = /home/taku/proj/zinnia/zinnia
+abs_top_srcdir = /home/taku/proj/zinnia/zinnia
 ac_ct_CC = gcc
 ac_ct_CXX = g++
 ac_ct_F77 = 
@@ -206,7 +206,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /home/taku/trunk/zinnia/install-sh
+install_sh = $(SHELL) /home/taku/proj/zinnia/zinnia/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -739,7 +739,7 @@ win-dist:
 	cp -fr sdk/*.c zinnia-0.01/sdk
 	find zinnia-0.01 -name CVS | xargs rm -rf
 	find zinnia-0.01 -name .svn | xargs rm -rr
-	zip -r zinnia-0.01.zip zinnia-0.01
+	zip -r zinnia-win32-0.01.zip zinnia-0.01
 	rm -fr zinnia-0.01
 
 dist-all-package:
@@ -771,10 +771,11 @@ script-clean:
 #	(cd java; $(MAKE) clean;)
 
 export-package:
-	./upload.pl -p zinnia -n zinnia        -r 0.01 -f zinnia-0.01.tar.gz
-	./upload.pl -p zinnia -n zinnia-win32  -r 0.01 -f zinnia-0.01.zip
-	scp doc/*.html sf:public_html/zinnia/
-	scp doc/*.css sf:public_html/zinnia/
+#	./upload.pl -p zinnia -n zinnia        -r 0.01 -f zinnia-0.01.tar.gz
+#	./upload.pl -p zinnia -n zinnia-win32  -r 0.01 -f zinnia-win32-0.01.zip
+#	scp doc/*.html sf:public_html/zinnia/
+#	scp doc/*.css sf:public_html/zinnia/
+	scp -r doc/doxygen sf:public_html/zinnia/
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

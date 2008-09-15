@@ -44,7 +44,7 @@ win-dist:
 	cp -fr sdk/*.c @PACKAGE@-@VERSION@/sdk
 	find @PACKAGE@-@VERSION@ -name CVS | xargs rm -rf
 	find @PACKAGE@-@VERSION@ -name .svn | xargs rm -rr
-	zip -r @PACKAGE@-@VERSION@.zip @PACKAGE@-@VERSION@
+	zip -r @PACKAGE@-win32-@VERSION@.zip @PACKAGE@-@VERSION@
 	rm -fr @PACKAGE@-@VERSION@
 
 zinnia_SOURCES = zinnia.cpp
@@ -88,6 +88,7 @@ script-clean:
 
 export-package:
 	./upload.pl -p zinnia -n zinnia        -r @VERSION@ -f zinnia-@VERSION@.tar.gz
-	./upload.pl -p zinnia -n zinnia-win32  -r @VERSION@ -f zinnia-@VERSION@.zip
+	./upload.pl -p zinnia -n zinnia-win32  -r @VERSION@ -f zinnia-win32-@VERSION@.zip
 	scp doc/*.html sf:public_html/zinnia/
 	scp doc/*.css sf:public_html/zinnia/
+	scp -r doc/doxygen sf:public_html/zinnia/
