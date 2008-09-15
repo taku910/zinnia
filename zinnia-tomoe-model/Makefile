@@ -441,6 +441,9 @@ uninstall-am: uninstall-modelDATA
 
 handwriting-ja.model handwriting-zh_CN.model:
 	/usr/local/bin/zinnia_convert $*.model.txt $@
+
+export-package:
+	./upload.pl -p zinnia -n zinnia-tomoe  -r 0.6.0-20080911 -f zinnia-tomoe-0.6.0-20080911.tar.bz2
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
