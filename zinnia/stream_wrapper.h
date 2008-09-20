@@ -3,7 +3,7 @@
 //
 //  $Id$;
 //
-//  Copyright(C) 2008 Taku Kudo <taku.org>
+//  Copyright(C) 2008 Taku Kudo <taku@chasen.org>
 //
 //
 //  CRF++ -- Yet Another CRF toolkit

@@ -3,7 +3,7 @@
 //
 //  $Id$;
 //
-//  Copyright(C) 2008 Taku Kudo <taku.org>
+//  Copyright(C) 2008 Taku Kudo <taku@chasen.org>
 //
 #include <vector>
 #include <iostream>

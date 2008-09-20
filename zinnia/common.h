@@ -3,7 +3,7 @@
 //
 //  $Id$;
 //
-//  Copyright(C) 2008 Taku Kudo <taku.org>
+//  Copyright(C) 2008 Taku Kudo <taku@chasen.org>
 //
 #ifndef zinnia_COMMON_H_
 #define zinnia_COMMON_H_
