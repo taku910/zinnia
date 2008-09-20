@@ -196,18 +196,34 @@ namespace zinnia {
     std::ofstream ofs(header_filename);
     ofs << "static const size_t " << name
         << "_size = " << mmap.file_size() << ";" << std::endl;
+#if defined(_WIN32) && !defined(__CYGWIN__)
+    ofs << "static const char " << name << "[] = {";
+#else
     ofs << "static const char " << name << "[] = \"";
+#endif
     const char *begin = mmap.begin();
     const char *end = mmap.end();
     while (begin < end) {
+#if defined(_WIN32) && !defined(__CYGWIN__)
+      char tmp[10];
+      sprintf(tmp, "0x%2.2x", static_cast<unsigned char>(*begin));
+      ofs << tmp << ",";
+#else
       const int hi = ((static_cast<int>(*begin) & 0xF0) >> 4);
       const int lo = (static_cast<int>(*begin) & 0x0F) ;
       ofs << "\\x";
       ofs << static_cast<char>(hi >= 10 ? hi - 10 + 'A' : hi + '0');
       ofs << static_cast<char>(lo >= 10 ? lo - 10 + 'A' : lo + '0');
-      ++begin;
+#endif
+      ++begin;       
     }
+
+
+#if defined(_WIN32) && !defined(__CYGWIN__)
+    ofs << "};" << std::endl;
+#else
     ofs << "\";" << std::endl;
+#endif
 
     if (!is_binary) {
       unlink(binary.c_str());
