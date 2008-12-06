@@ -540,7 +540,7 @@ s,@INSTALL_DATA@,|#_!!_#|${INSTALL} -m 644,g
 s,@am__isrc@,|#_!!_#|,g
 s,@CYGPATH_W@,|#_!!_#|echo,g
 s,@PACKAGE@,|#_!!_#|zinnia,g
-s,@VERSION@,|#_!!_#|0.01,g
+s,@VERSION@,|#_!!_#|0.02,g
 s,@ACLOCAL@,|#_!!_#|${SHELL} /home/taku/proj/zinnia/zinnia/missing --run aclocal-1.10,g
 s,@AUTOCONF@,|#_!!_#|${SHELL} /home/taku/proj/zinnia/zinnia/missing --run autoconf,g
 s,@AUTOMAKE@,|#_!!_#|${SHELL} /home/taku/proj/zinnia/zinnia/missing --run automake-1.10,g
@@ -869,7 +869,7 @@ s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE_VERSION\)[	 (].*,\1define\2 "" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE_STRING\)[	 (].*,\1define\2 "" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE_BUGREPORT\)[	 (].*,\1define\2 "" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE\)[	 (].*,\1define\2 "zinnia" ,
-s,^\([	 #]*\)[^	 ]*\([	 ]*VERSION\)[	 (].*,\1define\2 "0.01" ,
+s,^\([	 #]*\)[^	 ]*\([	 ]*VERSION\)[	 (].*,\1define\2 "0.02" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_SYS_TYPES_H\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_SYS_STAT_H\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_STDLIB_H\)[	 (].*,\1define\2 1 ,

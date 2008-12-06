@@ -2256,7 +2256,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=zinnia
- VERSION=0.01
+ VERSION=0.02
 
 
 cat >>confdefs.h <<_ACEOF

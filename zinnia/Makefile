@@ -173,7 +173,7 @@ SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = strip
-VERSION = 0.01
+VERSION = 0.02
 abs_builddir = /home/taku/proj/zinnia/zinnia
 abs_srcdir = /home/taku/proj/zinnia/zinnia
 abs_top_builddir = /home/taku/proj/zinnia/zinnia
@@ -724,23 +724,23 @@ win:
 #	(cd src; wcmd /c make.bat)
 
 win-dist:
-	rm -f zinnia-0.01.zip
-	mkdir -p zinnia-0.01/doc
-	mkdir -p zinnia-0.01/sdk
-	cp -f zinnia_learn.exe zinnia-0.01
-	cp -f zinnia_convert.exe zinnia-0.01
-	cp -f zinnia.exe zinnia-0.01
-	cp -f libzinnia.dll zinnia-0.01
-	cp -f libzinnia.lib zinnia-0.01/sdk
-	cp -f zinnia.h zinnia-0.01/sdk
-	cp -fr doc/*.html doc/*.css doc/doxygen zinnia-0.01/doc
-	cp -f README COPYING AUTHORS BSD zinnia-0.01
-	cp -fr sdk/*.cpp zinnia-0.01/sdk
-	cp -fr sdk/*.c zinnia-0.01/sdk
-	find zinnia-0.01 -name CVS | xargs rm -rf
-	find zinnia-0.01 -name .svn | xargs rm -rr
-	zip -r zinnia-win32-0.01.zip zinnia-0.01
-	rm -fr zinnia-0.01
+	rm -f zinnia-0.02.zip
+	mkdir -p zinnia-0.02/doc
+	mkdir -p zinnia-0.02/sdk
+	cp -f zinnia_learn.exe zinnia-0.02
+	cp -f zinnia_convert.exe zinnia-0.02
+	cp -f zinnia.exe zinnia-0.02
+	cp -f libzinnia.dll zinnia-0.02
+	cp -f libzinnia.lib zinnia-0.02/sdk
+	cp -f zinnia.h zinnia-0.02/sdk
+	cp -fr doc/*.html doc/*.css doc/doxygen zinnia-0.02/doc
+	cp -f README COPYING AUTHORS BSD zinnia-0.02
+	cp -fr sdk/*.cpp zinnia-0.02/sdk
+	cp -fr sdk/*.c zinnia-0.02/sdk
+	find zinnia-0.02 -name CVS | xargs rm -rf
+	find zinnia-0.02 -name .svn | xargs rm -rr
+	zip -r zinnia-win32-0.02.zip zinnia-0.02
+	rm -fr zinnia-0.02
 
 dist-all-package:
 	(test -f Makefile) && $(MAKE) distclean
@@ -754,14 +754,14 @@ dist-all-package:
 
 script-dist:
 	for subdir in perl ruby python ; do \
-	  rm -fr zinnia-$${subdir}-0.01; \
-	  mkdir zinnia-$${subdir}-0.01; \
-	  cp -r $${subdir}/* zinnia-$${subdir}-0.01; \
-	  cp -r doc/bindings.html  zinnia-$${subdir}-0.01; \
-	  find ./zinnia-$${subdir}-0.01 -type d -name CVS | xargs rm -fr; \
-	  rm -f zinnia-$${subdir}-0.01/*~; \
-	  tar zcfv zinnia-$${subdir}-0.01.tar.gz zinnia-$${subdir}-0.01; \
-	  rm -fr zinnia-$${subdir}-0.01; \
+	  rm -fr zinnia-$${subdir}-0.02; \
+	  mkdir zinnia-$${subdir}-0.02; \
+	  cp -r $${subdir}/* zinnia-$${subdir}-0.02; \
+	  cp -r doc/bindings.html  zinnia-$${subdir}-0.02; \
+	  find ./zinnia-$${subdir}-0.02 -type d -name CVS | xargs rm -fr; \
+	  rm -f zinnia-$${subdir}-0.02/*~; \
+	  tar zcfv zinnia-$${subdir}-0.02.tar.gz zinnia-$${subdir}-0.02; \
+	  rm -fr zinnia-$${subdir}-0.02; \
 	done
 
 script-clean:
@@ -771,8 +771,8 @@ script-clean:
 #	(cd java; $(MAKE) clean;)
 
 export-package:
-	./upload.pl -p zinnia -n zinnia        -r 0.01 -f zinnia-0.01.tar.gz
-	./upload.pl -p zinnia -n zinnia-win32  -r 0.01 -f zinnia-win32-0.01.zip
+	./upload.pl -p zinnia -n zinnia        -r 0.02 -f zinnia-0.02.tar.gz
+	./upload.pl -p zinnia -n zinnia-win32  -r 0.02 -f zinnia-win32-0.02.zip
 	scp doc/*.html sf:public_html/zinnia/
 	scp doc/*.css sf:public_html/zinnia/
 	scp -r doc/doxygen sf:public_html/zinnia/
