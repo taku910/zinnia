@@ -135,7 +135,7 @@ namespace zinnia {
 #ifndef SWIG
     virtual bool parse(const char *str, size_t length) = 0;
     virtual bool toString(char *buf, size_t length) const = 0;
-    static Character *create();
+    ZINNIA_DLL_EXTERN static Character *create();
 #endif
     virtual ~Character() {}
   };
@@ -159,7 +159,7 @@ namespace zinnia {
     virtual const char *what() = 0;
     virtual ~Recognizer() {}
 #ifndef SWIG
-    static Recognizer* create();
+    ZINNIA_DLL_EXTERN  static Recognizer* create();
 #endif
   };
 
@@ -168,17 +168,17 @@ namespace zinnia {
     virtual bool add(const Character &character) = 0;
     virtual void clear() = 0;
     virtual bool train(const char *filename) = 0;
-    static bool convert(const char *txt_model,
-                        const char *binary_model,
+    ZINNIA_DLL_EXTERN static bool convert(const char *txt_model,
+                                          const char *binary_model,
                         double compression_threshold);
-    static bool makeHeader(const char *txt_model,
-                           const char *header_file,
-                           const char *name,
-                           double compression_threshold);
+    ZINNIA_DLL_EXTERN  static bool makeHeader(const char *txt_model,
+                                              const char *header_file,
+                                              const char *name,
+                                              double compression_threshold);
     virtual const char *what() = 0;
     virtual ~Trainer() {}
 #ifndef SWIG
-    static Trainer* create();
+    ZINNIA_DLL_EXTERN  static Trainer* create();
 #endif
   };
 
