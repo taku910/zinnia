@@ -1,8 +1,8 @@
 CC = cl
 CXXC = cl
-CFLAGS =  /O2 /GA /GL /Gy /Oi /Ob2 /nologo /W3 /EHsc /MT
-LINKFLAGS = /link /OPT:REF /OPT:ICF /LTCG /NXCOMPAT /DYNAMICBASE
-LDFLAGS =ADVAPI32.LIB 
+LINK=link
+CFLAGS =  /O2 /GA /GL /Gy /Oi /Ob2 /nologo /W3 /EHsc /MT /wd4244
+LDFLAGS = /link /OPT:REF /OPT:ICF /LTCG /NXCOMPAT /DYNAMICBASE ADVAPI32.LIB 
 DEFS =  -D_CRT_SECURE_NO_DEPRECATE -DDLL_EXPORT -DHAVE_WINDOWS_H -DVERSION="\"0.03\"" -DPACKAGE="\"zinnia\""
 INC = -I. -I..
 DEL = del
@@ -21,17 +21,16 @@ OBJ = svm.obj libzinnia.obj character.obj feature.obj recognizer.obj trainer.obj
 all: libzinnia zinnia zinnia_learn zinnia_convert
 
 libzinnia: $(OBJ)
-        $(CXXC) /GD /LD $(LDFLAGS) /Fe$@.dll $(OBJ) $(LINKFLAGS) /dll
+        $(LINK) $(LDFLAGS) /out:$@.dll $(OBJ) /dll
 
 zinnia: $(OBJ) zinnia.obj
-	$(CXXC) $(LDFLAGS) /Fe$@.exe zinnia.obj libzinnia.lib $(LINKFLAGS)
+	$(LINK) $(LDFLAGS) /out:$@.exe zinnia.obj libzinnia.lib
 
 zinnia_learn: $(OBJ) zinnia_learn.obj
-	$(CXXC) $(LDFLAGS) /Fe$@.exe zinnia_learn.obj libzinnia.lib $(LINKFLAGS)
+	$(LINK) $(LDFLAGS) /out:$@.exe zinnia_learn.obj libzinnia.lib
 
 zinnia_convert: $(OBJ) zinnia_convert.obj
-	$(CXXC) $(LDFLAGS) /Fe$@.exe zinnia_convert.obj libzinnia.lib $(LINKFLAGS)
+	$(LINK) $(LDFLAGS) /out:$@.exe zinnia_convert.obj libzinnia.lib
 
 clean:
         del *.obj zinnia zinnia_learn zinnia_convert
-

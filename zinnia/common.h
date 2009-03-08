@@ -67,8 +67,10 @@ namespace zinnia {
 
   struct whatlog {
     std::ostringstream stream_;
+    std::string str_;
     const char *str() {
-      return stream_.str().c_str();
+      str_ = stream_.str();
+      return str_.c_str(); 
     }
     jmp_buf cond_;
   };
