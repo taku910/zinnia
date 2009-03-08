@@ -8,7 +8,7 @@
 #include <cmath>
 #include <vector>
 #include <string>
-#include <strstream>
+#include <sstream>
 #include <iostream>
 #include <cctype>
 #include "common.h"
@@ -167,7 +167,7 @@ namespace zinnia {
   }
 
   bool CharacterImpl::toString(char *str, size_t length) const {
-    std::ostrstream os(str, length);
+    std::ostringstream os;
     os << "(character (value " << value() << ")";
     os << "(width " << width() << ")";
     os << "(height " << height() << ")";
@@ -180,7 +180,11 @@ namespace zinnia {
       os << ")";
     }
     os << ")";
-    os << '\0';
+    const std::string &buf = os.str();
+    if (buf.size() < length) {
+      memcpy(str, buf.data(), buf.size());
+      str[buf.size()] = '\0';
+    }
     return true;
   }
 

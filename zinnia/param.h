@@ -11,7 +11,7 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <strstream>
+#include <sstream>
 #include "scoped_ptr.h"
 #include "common.h"
 
@@ -19,7 +19,7 @@ namespace zinnia {
   namespace {
     template <class Target, class Source>
     Target lexical_cast(Source arg) {
-      std::strstream interpreter;
+      std::stringstream interpreter;
       Target result;
       if (!(interpreter << arg) || !(interpreter >> result) ||
           !(interpreter >> std::ws).eof()) {

@@ -16,7 +16,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
-#include <strstream>
+#include <sstream>
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -66,10 +66,9 @@ namespace zinnia {
   };
 
   struct whatlog {
-    std::ostrstream stream_;
+    std::ostringstream stream_;
     const char *str() {
-      stream_ << std::ends;
-      return stream_.str();
+      return stream_.str().c_str();
     }
     jmp_buf cond_;
   };

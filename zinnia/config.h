@@ -55,6 +55,10 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#define LT_OBJDIR ".libs/"
+
 /* Name of package */
 #define PACKAGE "zinnia"
 
@@ -77,7 +81,7 @@
 /* #undef STDC_HEADERS */
 
 /* Version number of package */
-#define VERSION "0.02"
+#define VERSION "0.03"
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 /* #undef size_t */

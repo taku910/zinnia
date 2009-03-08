@@ -196,32 +196,44 @@ namespace zinnia {
     std::ofstream ofs(header_filename);
     ofs << "static const size_t " << name
         << "_size = " << mmap.file_size() << ";" << std::endl;
-#if defined(_WIN32) && !defined(__CYGWIN__)
-    ofs << "static const char " << name << "[] = {";
-#else
-    ofs << "static const char " << name << "[] = \"";
-#endif
+
     const char *begin = mmap.begin();
     const char *end = mmap.end();
-    while (begin < end) {
+
 #if defined(_WIN32) && !defined(__CYGWIN__)
-      char tmp[10];
-      sprintf(tmp, "0x%2.2x", static_cast<unsigned char>(*begin));
-      ofs << tmp << ",";
+    ofs << "static const unsigned long long "
+        << name << "_uint64[] = {"  << std::endl;
+    ofs.setf(std::ios::hex, std::ios::basefield);   // in hex
+    ofs.setf(std::ios::showbase);              // add 0x
+
+    int num = 0;
+    while (begin < end) {
+      unsigned long long int n = 0;
+      unsigned char *buf = reinterpret_cast<unsigned char *>(&n);
+      const size_t size = _min(static_cast<size_t>(end - begin),
+                               static_cast<size_t>(8));
+      for (size_t i = 0; i < size; ++i) {
+        buf[i] = static_cast<unsigned char>(begin[i]);
+      }
+      begin += 8;
+      ofs << n << ", ";
+      if (++num % 8 == 0) {
+        ofs << std::endl;
+      }
+    }
+    ofs << "};" << std::endl;
+    ofs << "static const char *" << name;
+    ofs << " = (const char *)(" <<  name << "_uint64);"  << std::endl;
 #else
+    ofs << "static const char " << name << "[] ="  << std::endl;
+    while (begin < end) {
       const int hi = ((static_cast<int>(*begin) & 0xF0) >> 4);
       const int lo = (static_cast<int>(*begin) & 0x0F) ;
       ofs << "\\x";
       ofs << static_cast<char>(hi >= 10 ? hi - 10 + 'A' : hi + '0');
       ofs << static_cast<char>(lo >= 10 ? lo - 10 + 'A' : lo + '0');
-#endif
-      ++begin;       
+      ++begin;
     }
-
-
-#if defined(_WIN32) && !defined(__CYGWIN__)
-    ofs << "};" << std::endl;
-#else
     ofs << "\";" << std::endl;
 #endif
 

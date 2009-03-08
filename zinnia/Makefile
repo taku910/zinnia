@@ -126,41 +126,45 @@ AUTOMAKE = ${SHELL} /home/taku/proj/zinnia/zinnia/missing --run automake-1.10
 AWK = mawk
 CC = gcc
 CCDEPMODE = depmode=none
-CFLAGS = -O3 -Wall -Wno-deprecated -mieee-fp
+CFLAGS = -O3 -Wall -mieee-fp
 CPP = gcc -E
 CPPFLAGS = 
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=none
-CXXFLAGS = -O3 -Wall -Wno-deprecated -mieee-fp
+CXXFLAGS = -O3 -Wall -mieee-fp
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DSYMUTIL = 
-ECHO = echo
+DUMPBIN = 
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
 EXEEXT = 
-F77 = 
-FFLAGS = 
+FGREP = /bin/grep -F
 GREP = /bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
+LD = /usr/bin/ld
 LDFLAGS = 
 LIBOBJS = 
 LIBS = -lm -lm -lm 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
+LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/taku/proj/zinnia/zinnia/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
+NM = /usr/bin/nm -B
 NMEDIT = 
 OBJEXT = o
+OTOOL = 
+OTOOL64 = 
 PACKAGE = zinnia
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = 
@@ -173,14 +177,14 @@ SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = strip
-VERSION = 0.02
+VERSION = 0.03
 abs_builddir = /home/taku/proj/zinnia/zinnia
 abs_srcdir = /home/taku/proj/zinnia/zinnia
 abs_top_builddir = /home/taku/proj/zinnia/zinnia
 abs_top_srcdir = /home/taku/proj/zinnia/zinnia
 ac_ct_CC = gcc
 ac_ct_CXX = g++
-ac_ct_F77 = 
+ac_ct_DUMPBIN = 
 am__include = include
 am__leading_dot = .
 am__quote = 
@@ -211,6 +215,7 @@ libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
 localstatedir = ${prefix}/var
+lt_ECHO = echo
 mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
@@ -724,23 +729,23 @@ win:
 #	(cd src; wcmd /c make.bat)
 
 win-dist:
-	rm -f zinnia-0.02.zip
-	mkdir -p zinnia-0.02/doc
-	mkdir -p zinnia-0.02/sdk
-	cp -f zinnia_learn.exe zinnia-0.02
-	cp -f zinnia_convert.exe zinnia-0.02
-	cp -f zinnia.exe zinnia-0.02
-	cp -f libzinnia.dll zinnia-0.02
-	cp -f libzinnia.lib zinnia-0.02/sdk
-	cp -f zinnia.h zinnia-0.02/sdk
-	cp -fr doc/*.html doc/*.css doc/doxygen zinnia-0.02/doc
-	cp -f README COPYING AUTHORS BSD zinnia-0.02
-	cp -fr sdk/*.cpp zinnia-0.02/sdk
-	cp -fr sdk/*.c zinnia-0.02/sdk
-	find zinnia-0.02 -name CVS | xargs rm -rf
-	find zinnia-0.02 -name .svn | xargs rm -rr
-	zip -r zinnia-win32-0.02.zip zinnia-0.02
-	rm -fr zinnia-0.02
+	rm -f zinnia-0.03.zip
+	mkdir -p zinnia-0.03/doc
+	mkdir -p zinnia-0.03/sdk
+	cp -f zinnia_learn.exe zinnia-0.03
+	cp -f zinnia_convert.exe zinnia-0.03
+	cp -f zinnia.exe zinnia-0.03
+	cp -f libzinnia.dll zinnia-0.03
+	cp -f libzinnia.lib zinnia-0.03/sdk
+	cp -f zinnia.h zinnia-0.03/sdk
+	cp -fr doc/*.html doc/*.css doc/doxygen zinnia-0.03/doc
+	cp -f README COPYING AUTHORS BSD zinnia-0.03
+	cp -fr sdk/*.cpp zinnia-0.03/sdk
+	cp -fr sdk/*.c zinnia-0.03/sdk
+	find zinnia-0.03 -name CVS | xargs rm -rf
+	find zinnia-0.03 -name .svn | xargs rm -rr
+	zip -r zinnia-win32-0.03.zip zinnia-0.03
+	rm -fr zinnia-0.03
 
 dist-all-package:
 	(test -f Makefile) && $(MAKE) distclean
@@ -754,14 +759,14 @@ dist-all-package:
 
 script-dist:
 	for subdir in perl ruby python ; do \
-	  rm -fr zinnia-$${subdir}-0.02; \
-	  mkdir zinnia-$${subdir}-0.02; \
-	  cp -r $${subdir}/* zinnia-$${subdir}-0.02; \
-	  cp -r doc/bindings.html  zinnia-$${subdir}-0.02; \
-	  find ./zinnia-$${subdir}-0.02 -type d -name CVS | xargs rm -fr; \
-	  rm -f zinnia-$${subdir}-0.02/*~; \
-	  tar zcfv zinnia-$${subdir}-0.02.tar.gz zinnia-$${subdir}-0.02; \
-	  rm -fr zinnia-$${subdir}-0.02; \
+	  rm -fr zinnia-$${subdir}-0.03; \
+	  mkdir zinnia-$${subdir}-0.03; \
+	  cp -r $${subdir}/* zinnia-$${subdir}-0.03; \
+	  cp -r doc/bindings.html  zinnia-$${subdir}-0.03; \
+	  find ./zinnia-$${subdir}-0.03 -type d -name CVS | xargs rm -fr; \
+	  rm -f zinnia-$${subdir}-0.03/*~; \
+	  tar zcfv zinnia-$${subdir}-0.03.tar.gz zinnia-$${subdir}-0.03; \
+	  rm -fr zinnia-$${subdir}-0.03; \
 	done
 
 script-clean:
@@ -771,8 +776,8 @@ script-clean:
 #	(cd java; $(MAKE) clean;)
 
 export-package:
-	./upload.pl -p zinnia -n zinnia        -r 0.02 -f zinnia-0.02.tar.gz
-	./upload.pl -p zinnia -n zinnia-win32  -r 0.02 -f zinnia-win32-0.02.zip
+	./upload.pl -p zinnia -n zinnia        -r 0.03 -f zinnia-0.03.tar.gz
+	./upload.pl -p zinnia -n zinnia-win32  -r 0.03 -f zinnia-win32-0.03.zip
 	scp doc/*.html sf:public_html/zinnia/
 	scp doc/*.css sf:public_html/zinnia/
 	scp -r doc/doxygen sf:public_html/zinnia/

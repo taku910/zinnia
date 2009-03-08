@@ -38,12 +38,6 @@ struct zinnia_trainer_t {
   zinnia::Trainer *ptr;
 };
 
-#if defined(_WIN32) && !defined(__CYGWIN__)
-BOOL __stdcall DllMain(HINSTANCE hinst, DWORD dwReason, void*) {
-  return TRUE;
-}
-#endif
-
 zinnia_character_t* zinnia_character_new() {
   zinnia_character_t *character = new zinnia_character_t;
   character->ptr = zinnia::Character::create();

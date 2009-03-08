@@ -27,7 +27,7 @@
     if (!self->toString(buf, sizeof(buf)))
       return 0;
     char *r = new char[strlen(buf) + 1];
-    std::strcpy(r, buf);
+    strcpy(r, buf);
     return r; 
   }
 }
