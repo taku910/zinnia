@@ -158,7 +158,7 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE "zinnia"
-| #define VERSION "0.03"
+| #define VERSION "0.04"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
 configure:4084: result: gcc -E
@@ -175,7 +175,7 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE "zinnia"
-| #define VERSION "0.03"
+| #define VERSION "0.04"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
 configure:4194: checking for grep that handles long lines and -e
@@ -322,7 +322,7 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE "zinnia"
-| #define VERSION "0.03"
+| #define VERSION "0.04"
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
 | #define HAVE_STDLIB_H 1
@@ -349,7 +349,7 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE "zinnia"
-| #define VERSION "0.03"
+| #define VERSION "0.04"
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
 | #define HAVE_STDLIB_H 1
@@ -626,7 +626,6 @@ config.status:910: creating Makefile
 config.status:910: creating Makefile.msvc
 config.status:910: creating swig/version.h
 config.status:910: creating config.h
-config.status:1152: config.h is unchanged
 config.status:1199: executing depfiles commands
 config.status:1199: executing libtool commands
 
@@ -798,7 +797,7 @@ SED='/bin/sed'
 SET_MAKE=''
 SHELL='/bin/bash'
 STRIP='strip'
-VERSION='0.03'
+VERSION='0.04'
 ac_ct_CC='gcc'
 ac_ct_CXX='g++'
 ac_ct_DUMPBIN=''
@@ -859,7 +858,7 @@ target_alias=''
 #define PACKAGE_STRING ""
 #define PACKAGE_BUGREPORT ""
 #define PACKAGE "zinnia"
-#define VERSION "0.03"
+#define VERSION "0.04"
 #define HAVE_SYS_TYPES_H 1
 #define HAVE_SYS_STAT_H 1
 #define HAVE_STDLIB_H 1

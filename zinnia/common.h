@@ -87,7 +87,7 @@ namespace zinnia {
 #define WHAT what_.stream_
 
 #define CHECK_RETURN(condition, value) \
-if (!(condition)) \
+if (condition) {} else \
   if (setjmp(what_.cond_) == 1) { \
     return value;  \
   } else \
@@ -98,7 +98,7 @@ if (!(condition)) \
 #define CHECK_FALSE(condition)  CHECK_RETURN(condition, false)
 
 #define CHECK_CLOSE_FALSE(condition) \
-if (!(condition)) \
+if (condition) {} else \
   if (setjmp(what_.cond_) == 1) { \
     close(); \
     return false;  \

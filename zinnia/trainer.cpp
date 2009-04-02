@@ -266,10 +266,11 @@ namespace zinnia {
     bofs.write(reinterpret_cast<const char *>(&msize), sizeof(msize));
 
     std::string line;
-    char *col[8192 * 16];
+    const size_t array_size = 8192 * 16;
+    scoped_array<char *> col(new char* [array_size]);
     while (std::getline(ifs, line)) {
       char *buf = const_cast<char *>(line.c_str());
-      const size_t size = tokenize(buf, " \t:", col, sizeof(col));
+      const size_t size = tokenize(buf, " \t:", col.get(), array_size);
       if (size < 5) return false;
       if (size % 2 != 0) return false;
       const float bias = std::atof(col[1]);

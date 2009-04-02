@@ -81,7 +81,7 @@
 /* #undef STDC_HEADERS */
 
 /* Version number of package */
-#define VERSION "0.03"
+#define VERSION "0.04"
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 /* #undef size_t */
