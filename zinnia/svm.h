@@ -9,14 +9,14 @@
 #define zinnia_SVM_H_
 
 namespace zinnia {
-  struct FeatureNode;
+struct FeatureNode;
 
-  bool svm_train(size_t l,
-                 size_t n,
-                 const float *y,
-                 const FeatureNode **x,
-                 double C,
-                 double *w);
+bool svm_train(size_t l,
+               size_t n,
+               const float *y,
+               const FeatureNode **x,
+               double C,
+               double *w);
 }
 
 #endif

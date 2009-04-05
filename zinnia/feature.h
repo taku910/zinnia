@@ -10,55 +10,55 @@
 
 namespace zinnia {
 
-  class Character;
+class Character;
 
-  struct FeatureNode {
-    int index;
-    float value;
-  };
+struct FeatureNode {
+  int index;
+  float value;
+};
 
-  inline double dot(const FeatureNode *x1,
-                    const FeatureNode *x2) {
-    double sum = 0;
-    while (x1->index >= 0 && x2->index >= 0) {
-      if (x1->index == x2->index) {
-        sum += (x1->value * x2->value);
-        ++x1;
-        ++x2;
-      } else if (x1->index < x2->index) {
-        ++x1;
-      } else {
-        ++x2;
-      }
+inline double dot(const FeatureNode *x1,
+                  const FeatureNode *x2) {
+  double sum = 0;
+  while (x1->index >= 0 && x2->index >= 0) {
+    if (x1->index == x2->index) {
+      sum += (x1->value * x2->value);
+      ++x1;
+      ++x2;
+    } else if (x1->index < x2->index) {
+      ++x1;
+    } else {
+      ++x2;
     }
-    return sum;
   }
+  return sum;
+}
 
-  struct Node {
-    float x;
-    float y;
+struct Node {
+  float x;
+  float y;
+};
+
+class Features {
+ private:
+  std::vector<FeatureNode> features_;
+
+  struct NodePair {
+    const Node *first;
+    const Node *last;
+    NodePair(): first(0), last(0) {}
   };
 
-  class Features {
-  private:
-    std::vector<FeatureNode> features_;
+  void makeBasicFeature(int id, const Node *first, const Node *last);
+  void makeMoveFeature(int id, const Node *first, const Node *last);
+  void makeVertexFeature(int id, std::vector<NodePair> *node_pairs);
+  void getVertex(const Node *first, const Node *last,
+                 int id, std::vector<NodePair> *node_pairs) const;
+  void addFeature(int index, float value);
 
-    struct NodePair {
-      const Node *first;
-      const Node *last;
-      NodePair(): first(0), last(0) {}
-    };
-
-    void makeBasicFeature(int id, const Node *first, const Node *last);
-    void makeMoveFeature(int id, const Node *first, const Node *last);
-    void makeVertexFeature(int id, std::vector<NodePair> *node_pairs);
-    void getVertex(const Node *first, const Node *last,
-                   int id, std::vector<NodePair> *node_pairs) const;
-    void addFeature(int index, float value);
-
-  public:
-    bool read(const Character &character);
-    const FeatureNode *get() const { return &features_[0]; }
-  };
+ public:
+  bool read(const Character &character);
+  const FeatureNode *get() const { return &features_[0]; }
+};
 }
 #endif

@@ -111,96 +111,96 @@ extern "C" {
 
 namespace zinnia {
 
-  ZINNIA_DLL_EXTERN const char *version();
+ZINNIA_DLL_EXTERN const char *version();
 
-  class Character {
-  public:
+class Character {
+ public:
 #ifndef SWIG
-    virtual void set_value(const char *str, size_t length) = 0;
+  virtual void set_value(const char *str, size_t length) = 0;
 #endif
-    virtual void set_value(const char *str) = 0;
-    virtual const char *value() const = 0;
-    virtual void set_width(size_t width) = 0;
-    virtual void set_height(size_t height) = 0;
-    virtual size_t width() const = 0;
-    virtual size_t height() const = 0;
-    virtual void clear() = 0;
-    virtual bool add(size_t id, int x, int y) = 0;
-    virtual size_t strokes_size() const = 0;
-    virtual size_t stroke_size(size_t id) const = 0;
-    virtual int x(size_t id, size_t i) const = 0;
-    virtual int y(size_t id, size_t i) const = 0;
-    virtual bool parse(const char *str) = 0;
-    virtual const char *what() = 0;
+  virtual void set_value(const char *str) = 0;
+  virtual const char *value() const = 0;
+  virtual void set_width(size_t width) = 0;
+  virtual void set_height(size_t height) = 0;
+  virtual size_t width() const = 0;
+  virtual size_t height() const = 0;
+  virtual void clear() = 0;
+  virtual bool add(size_t id, int x, int y) = 0;
+  virtual size_t strokes_size() const = 0;
+  virtual size_t stroke_size(size_t id) const = 0;
+  virtual int x(size_t id, size_t i) const = 0;
+  virtual int y(size_t id, size_t i) const = 0;
+  virtual bool parse(const char *str) = 0;
+  virtual const char *what() = 0;
 #ifndef SWIG
-    virtual bool parse(const char *str, size_t length) = 0;
-    virtual bool toString(char *buf, size_t length) const = 0;
+  virtual bool parse(const char *str, size_t length) = 0;
+  virtual bool toString(char *buf, size_t length) const = 0;
 #ifdef _WIN32
-    ZINNIA_DLL_EXTERN
+  ZINNIA_DLL_EXTERN
 #endif
-    static Character *create();
+  static Character *create();
 #endif
-    virtual ~Character() {}
-  };
+  virtual ~Character() {}
+};
 
-  class Result {
-  public:
-    virtual const char *value(size_t i) const = 0;
-    virtual float score(size_t i) const = 0;
-    virtual size_t size() const = 0;
-    virtual ~Result() {}
-  };
+class Result {
+ public:
+  virtual const char *value(size_t i) const = 0;
+  virtual float score(size_t i) const = 0;
+  virtual size_t size() const = 0;
+  virtual ~Result() {}
+};
 
-  class Recognizer {
-  public:
-    virtual bool open(const char *filename) = 0;
-    virtual bool open(const char *ptr, size_t size) = 0;
-    virtual bool close() = 0;
-    virtual size_t size() const = 0;
-    virtual const char *value(size_t i) const = 0;
-    virtual Result *classify(const Character &character, size_t nbest) const = 0;
-    virtual const char *what() = 0;
-    virtual ~Recognizer() {}
-#ifndef SWIG
-#ifdef _WIN32
-    ZINNIA_DLL_EXTERN
-#endif
-    static Recognizer* create();
-#endif
-  };
-
-  class Trainer {
-  public:
-    virtual bool add(const Character &character) = 0;
-    virtual void clear() = 0;
-    virtual bool train(const char *filename) = 0;
-#ifdef _WIN32
-    ZINNIA_DLL_EXTERN
-#endif
-    static bool convert(const char *txt_model,
-                        const char *binary_model,
-                        double compression_threshold);
-#ifdef _WIN32
-    ZINNIA_DLL_EXTERN
-#endif
-    static bool makeHeader(const char *txt_model,
-                           const char *header_file,
-                           const char *name,
-                           double compression_threshold);
-    virtual const char *what() = 0;
-    virtual ~Trainer() {}
+class Recognizer {
+ public:
+  virtual bool open(const char *filename) = 0;
+  virtual bool open(const char *ptr, size_t size) = 0;
+  virtual bool close() = 0;
+  virtual size_t size() const = 0;
+  virtual const char *value(size_t i) const = 0;
+  virtual Result *classify(const Character &character, size_t nbest) const = 0;
+  virtual const char *what() = 0;
+  virtual ~Recognizer() {}
 #ifndef SWIG
 #ifdef _WIN32
-    ZINNIA_DLL_EXTERN
+  ZINNIA_DLL_EXTERN
 #endif
-    static Trainer* create();
+  static Recognizer* create();
 #endif
-  };
+};
+
+class Trainer {
+ public:
+  virtual bool add(const Character &character) = 0;
+  virtual void clear() = 0;
+  virtual bool train(const char *filename) = 0;
+#ifdef _WIN32
+  ZINNIA_DLL_EXTERN
+#endif
+  static bool convert(const char *txt_model,
+                      const char *binary_model,
+                      double compression_threshold);
+#ifdef _WIN32
+  ZINNIA_DLL_EXTERN
+#endif
+  static bool makeHeader(const char *txt_model,
+                         const char *header_file,
+                         const char *name,
+                         double compression_threshold);
+  virtual const char *what() = 0;
+  virtual ~Trainer() {}
+#ifndef SWIG
+#ifdef _WIN32
+  ZINNIA_DLL_EXTERN
+#endif
+  static Trainer* create();
+#endif
+};
 
 #ifndef SWIG
-  ZINNIA_DLL_EXTERN Recognizer* createRecognizer();
-  ZINNIA_DLL_EXTERN Character*  createCharacter();
-  ZINNIA_DLL_EXTERN Trainer*    createTrainer();
+ZINNIA_DLL_EXTERN Recognizer* createRecognizer();
+ZINNIA_DLL_EXTERN Character*  createCharacter();
+ZINNIA_DLL_EXTERN Trainer*    createTrainer();
 #endif
 }
 

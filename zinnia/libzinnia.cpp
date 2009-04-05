@@ -242,7 +242,7 @@ const char* zinnia_version() {
 }
 
 namespace zinnia {
-  const char *version() { return VERSION; }
+const char *version() { return VERSION; }
 }
 
 int zinnia_do(int argc, char **argv) {
@@ -282,7 +282,7 @@ int zinnia_do(int argc, char **argv) {
   std::string line;
   zinnia::scoped_ptr<zinnia::Character> character(zinnia::Character::create());
   zinnia::scoped_ptr<zinnia::Recognizer>
-    recognizer(zinnia::Recognizer::create());
+      recognizer(zinnia::Recognizer::create());
 
   CHECK_DIE(recognizer->open(model.c_str())) << recognizer->what();
 
@@ -291,13 +291,13 @@ int zinnia_do(int argc, char **argv) {
     CHECK_DIE(*ifs) << "no such file or directory: " << rest[i];
     while (std::getline(*ifs, line)) {
       CHECK_DIE(character->parse(line.c_str(), line.size()))
-        << character->what();
+          << character->what();
       *ofs << "Answer: " << character->value() << std::endl;
       zinnia::scoped_ptr<zinnia::Result>
-        result(recognizer->classify(*(character.get()), nbest));
+          result(recognizer->classify(*(character.get()), nbest));
       if (!result.get()) {
         std::cerr << "failed: " <<
-          character->value() << " " << recognizer->what();
+            character->value() << " " << recognizer->what();
         continue;
       }
       for (size_t i = 0; i < result->size(); ++i)
@@ -330,7 +330,7 @@ int zinnia_learn(int argc, char **argv) {
 
   const std::vector<std::string>& rest = param.rest_args();
   CHECK_DIE(rest.size() == 2)
-    << "Usage: " << argv[0] << " trainig-file model-file";
+      << "Usage: " << argv[0] << " trainig-file model-file";
 
   const std::string train_file = rest[0];
   const std::string model_file = rest[1];
@@ -347,9 +347,9 @@ int zinnia_learn(int argc, char **argv) {
       continue;
     }
     if (!trainer->add(*character)) {
-       std::cerr << character->what()
-                 << " " << trainer->what() << std::endl;
-       continue;
+      std::cerr << character->what()
+                << " " << trainer->what() << std::endl;
+      continue;
     }
   }
 
@@ -382,7 +382,7 @@ int zinnia_convert(int argc, char **argv) {
 
   const std::vector<std::string>& rest = param.rest_args();
   CHECK_DIE(rest.size() == 2)
-    << "Usage: " << argv[0] << " text-model-file binary-model-file";
+      << "Usage: " << argv[0] << " text-model-file binary-model-file";
 
   const std::string text_file = rest[0];
   const std::string model_file = rest[1];
