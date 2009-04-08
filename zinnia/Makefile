@@ -739,7 +739,7 @@ win-dist:
 	cp -f libzinnia.lib zinnia-0.04/sdk
 	cp -f zinnia.h zinnia-0.04/sdk
 	cp -fr doc/*.html doc/*.css doc/doxygen zinnia-0.04/doc
-	cp -f README COPYING AUTHORS BSD zinnia-0.04
+	cp -f README COPYING AUTHORS zinnia-0.04
 	cp -fr sdk/*.cpp zinnia-0.04/sdk
 	cp -fr sdk/*.c zinnia-0.04/sdk
 	find zinnia-0.04 -name CVS | xargs rm -rf
