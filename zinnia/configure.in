@@ -52,7 +52,6 @@ AC_ARG_WITH(pkgconfigdir,
             [pkgconfigdir=${withval}],
             [pkgconfigdir='${libdir}/pkgconfig'])
 AC_SUBST([pkgconfigdir])
-dnl AC_MSG_NOTICE([pkgconfig directory is ${pkgconfigdir}])
 
 dnl
 dnl check gcc
