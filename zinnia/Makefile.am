@@ -8,6 +8,10 @@ libzinnia_la_SOURCES = feature.h param.cpp recognizer.cpp stream_wrapper.h \
                       svm.cpp sexp.cpp sexp.h zinnia.h feature.cpp libzinnia.cpp  mmap.h common.h \
 		      param.h freelist.h scoped_ptr.h character.cpp svm.h  trainer.cpp
 include_HEADERS = zinnia.h
+kgcincludedir = $(includedir)
+pkginclude_HEADERS = zinnia.h
+pkgconfigdir = @pkgconfigdir@
+pkgconfig_DATA = zinnia.pc
 
 dist-hook:
 	for subdir in $(EXTRA_DIRS); do \

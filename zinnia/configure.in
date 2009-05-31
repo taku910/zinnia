@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(zinnia.cpp)
-AM_INIT_AUTOMAKE(zinnia, 0.04)
+AM_INIT_AUTOMAKE(zinnia, 0.05)
 
 dnl Checks for programs.
 AC_PROG_CC
@@ -26,6 +26,8 @@ dnl Checks for libraries.
 AC_CHECK_LIB(m,pow)
 AC_CHECK_LIB(m,exp)
 AC_CHECK_LIB(m,log)
+AC_CHECK_LIB(stdc++, main, ZINNIA_PRIVATE_LIBS="-lstdc++")
+AC_SUBST(ZINNIA_PRIVATE_LIBS)
 # AC_CHECK_LIB(pthread,pthread_create)
 # AC_CHECK_LIB(pthread,pthread_join)
 AC_FUNC_MMAP
@@ -43,14 +45,24 @@ else
         fi
 fi
 
+dnl pkg config
+AC_ARG_WITH(pkgconfigdir,
+            AC_HELP_STRING([--with-pkgconfigdir],
+	    [Use the specified pkgconfig dir]),
+            [pkgconfigdir=${withval}],
+            [pkgconfigdir='${libdir}/pkgconfig'])
+AC_SUBST([pkgconfigdir])
+dnl AC_MSG_NOTICE([pkgconfig directory is ${pkgconfigdir}])
+
 dnl
 dnl check gcc
 dnl
 if test -n "$GCC"; then
    CFLAGS="-O3 -Wall"
    CXXFLAGS="-O3 -Wall"
+   AC_MSG_RESULT($ac_cv_x86_sse)
 fi
-      
+
 AC_DEFUN(ADD_CC_FLAG, [
   AC_MSG_CHECKING(whether ${CC-cc} accepts $1)
   AC_LANG_SAVE
@@ -204,7 +216,7 @@ AC_TRY_COMPILE(
    }
    catch (char *e) {
    }
-   
+
    catch (...) {
    }
 ],[
@@ -240,7 +252,38 @@ if test "x$config_error" = xyes ; then
 fi
 AC_MSG_RESULT([yes])
 
+dnl check if the assembler supports SSE instructions
+AC_DEFUN([AC_CHECK_X86_SSE],
+[
+AC_MSG_CHECKING([for x86 SSE instructions])
+AC_CACHE_VAL(ac_cv_x86_sse,
+[
+AC_TRY_COMPILE(,
+[
+#if defined(__GNUC__) && defined(__i386__)
+__asm__("movups %xmm0, (%esp)");
+#else
+error Not gcc on x86
+#endif
+],
+ac_cv_x86_sse=yes,
+ac_cv_x86_sse=no)
+])
+])
+
+AC_CHECK_X86_SSE
+
+if test "x$ac_cv_x86_sse" = "xyes"; then
+   ADD_CC_FLAG(-msse)
+   ADD_CXX_FLAG(-msse)
+   ADD_CC_FLAG(-msse2)
+   ADD_CXX_FLAG(-msse2)   
+   ADD_CC_FLAG(-mmmx)
+   ADD_CXX_FLAG(-mmmx)
+fi   
+
 AC_SUBST(datarootdir)
 AM_CONFIG_HEADER(config.h)
+AC_CONFIG_FILES([zinnia.pc:zinnia.pc.in])
 AC_OUTPUT([Makefile Makefile.msvc swig/version.h])
 
