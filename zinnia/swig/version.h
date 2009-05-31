@@ -1,3 +1,3 @@
 namespace zinnia {
-#define VERSION "0.04"
+#define VERSION "0.05"
 }
