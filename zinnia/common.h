@@ -23,7 +23,7 @@
 #endif
 
 #define COPYRIGHT  "zinnia: Yet Another Hand Written Character Recognizer\nCopyright(C)" \
-  " 2005-2007 Taku Kudo, All rights reserved.\n"
+  " 2005-2009 Taku Kudo, All rights reserved.\n"
 
 // tricky macro for MSVC
 #ifdef _MSC_VER
