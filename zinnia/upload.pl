@@ -77,14 +77,14 @@ while (1) {
 print "moving $url\n";
 print "uploading $file_name ...\n";
 $mech->get($url);
-$mech->form_number(4);
+$mech->form_number(2);
 $mech->field('release_name', $release_name);
 $mech->click();
-$mech->form_number(5);
+$mech->form_number(3);
 $mech->tick('file_list[]', $file_name);
 $mech->click();
-$mech->form_number(4);
-$mech->field('release_date',
-    strftime("%Y-%m-%d", localtime((stat($file_name))[9])));
-$mech->click();
+# $mech->form_number(4);
+# $mech->field('release_date',
+#    strftime("%Y-%m-%d", localtime((stat($file_name))[9])));
+# $mech->click();
 print "done\n";
