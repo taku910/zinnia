@@ -5,6 +5,9 @@
 //
 //  Copyright(C) 2008 Taku Kudo <taku@chasen.org>
 //
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -23,11 +26,28 @@ static inline char *read_ptr(char **ptr, size_t size) {
   return r;
 }
 
-template <class T>
-static inline void read_static(char **ptr, T *value) {
+template <typename T>
+inline void read_static(char **ptr, T *value) {
   char *r = read_ptr(ptr, sizeof(T));
   memcpy(value, r, sizeof(T));
 }
+
+#ifndef WORDS_LITENDIAN
+template <>
+inline void read_static<unsigned int>(char **ptr, unsigned int *value) {
+    unsigned char *buf = reinterpret_cast<unsigned char *>(*ptr);
+    *value = (buf[0]) | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
+    *ptr += 4;
+}
+
+template <>
+inline void read_static<float>(char **ptr, float *value) {
+    unsigned int x;
+    read_static<unsigned int>(ptr, &x);
+    memcpy(value, &x, sizeof(x));
+}
+#endif
+
 }
 
 namespace zinnia {

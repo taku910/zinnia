@@ -243,6 +243,31 @@ bool Trainer::makeHeader(const char *text_filename,
   return true;
 }
 
+template<typename T>
+inline void write_static(std::ofstream & bofs, const T value)
+{
+    bofs.write(reinterpret_cast<const char *>(&value), sizeof(T));
+}
+
+#ifndef WORDS_LITENDIAN
+template<>
+inline void write_static<unsigned int>(std::ofstream & bofs, const unsigned int value)
+{
+    bofs.put ((value) & 0xff);
+    bofs.put ((value >> 8) & 0xff);
+    bofs.put ((value >> 16) & 0xff);
+    bofs.put ((value >> 24) & 0xff);
+}
+
+template<>
+inline void write_static<float>(std::ofstream & bofs, const float value)
+{
+    unsigned int x;
+    memcpy(&x, &value, sizeof(x));
+    write_static<unsigned int>(bofs, x);
+}
+#endif
+
 bool Trainer::convert(const char *text_filename,
                       const char *binary_filename,
                       double compression_threshold) {
@@ -261,9 +286,9 @@ bool Trainer::convert(const char *text_filename,
   unsigned int magic = 0;
   const unsigned int version = DIC_VERSION;
   unsigned int msize = 0;
-  bofs.write(reinterpret_cast<const char *>(&magic), sizeof(magic));
-  bofs.write(reinterpret_cast<const char *>(&version), sizeof(version));
-  bofs.write(reinterpret_cast<const char *>(&msize), sizeof(msize));
+  write_static<unsigned int> (bofs, magic);
+  write_static<unsigned int> (bofs, version);
+  write_static<unsigned int> (bofs, msize);
 
   std::string line;
   const size_t array_size = 8192 * 16;
@@ -277,19 +302,19 @@ bool Trainer::convert(const char *text_filename,
     char character[16];
     std::strncpy(character, col[0], sizeof(character));
     bofs.write(character, sizeof(character));
-    bofs.write(reinterpret_cast<const char *>(&bias), sizeof(bias));
+    write_static<float> (bofs, bias);
     for (size_t i = 2; i < size; i += 2) {
       const int index = std::atoi(col[i]);
       const float value = std::atof(col[i + 1]);
       if (fabs(value) > compression_threshold) {
-        bofs.write(reinterpret_cast<const char *>(&index), sizeof(index));
-        bofs.write(reinterpret_cast<const char *>(&value), sizeof(value));
+        write_static<int> (bofs, index);
+        write_static<float> (bofs, value);
       }
     }
     const int index = -1;
     const float value = 0.0;
-    bofs.write(reinterpret_cast<const char *>(&index), sizeof(index));
-    bofs.write(reinterpret_cast<const char *>(&value), sizeof(value));
+    write_static<int> (bofs, index);
+    write_static<float> (bofs, value);
     ++msize;
   }
 
@@ -297,9 +322,10 @@ bool Trainer::convert(const char *text_filename,
   bofs.seekp(0);
   magic ^= DIC_MAGIC_ID;
   bofs.seekp(0);
-  bofs.write(reinterpret_cast<const char *>(&magic), sizeof(magic));
-  bofs.write(reinterpret_cast<const char *>(&version), sizeof(version));
-  bofs.write(reinterpret_cast<const char *>(&msize),  sizeof(msize));
+
+  write_static<unsigned int> (bofs, magic);
+  write_static<unsigned int> (bofs, version);
+  write_static<unsigned int> (bofs, msize);
 
   return true;
 }
