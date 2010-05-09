@@ -90,7 +90,7 @@
 /* #undef STDC_HEADERS */
 
 /* Version number of package */
-#define VERSION "0.05"
+#define VERSION "0.06"
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */
