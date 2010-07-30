@@ -907,11 +907,11 @@ script-clean:
 #	(cd java; $(MAKE) clean;)
 
 export-package:
-	./upload.pl -p zinnia -n zinnia        -r 0.06 -f zinnia-0.06.tar.gz
-	./upload.pl -p zinnia -n zinnia-win32  -r 0.06 -f zinnia-win32-0.06.zip
+#	./upload.pl -p zinnia -n zinnia        -r 0.06 -f zinnia-0.06.tar.gz
+#	./upload.pl -p zinnia -n zinnia-win32  -r 0.06 -f zinnia-win32-0.06.zip
 	scp doc/*.html sf:public_html/zinnia/
 	scp doc/*.css sf:public_html/zinnia/
-	scp -r doc/doxygen sf:public_html/zinnia/
+#	scp -r doc/doxygen sf:public_html/zinnia/
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
