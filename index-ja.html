@@ -1,0 +1,359 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<link rel=stylesheet href="zinnia.css" media=all>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Zinnia: 機械学習ベースのポータブルな手書き文字認識エンジン</title>
+</head>
+<body>
+<h1>Zinnia: 機械学習ベースのポータブルなオンライン手書き文字認識エンジン</h1>
+<p><a href="index-ja.html">[日本語]</a><a href="index.html">[英語]</a></p>
+<p>Zinniaは機械学習アルゴリズム SVM を用いたポータブルで汎用的な
+オンライン手書き文字認識エンジンです。Zinniaは組み込みの容易さと汎用性を高めるために、
+文字のレンダリング機能は持っていません。Zinniaは文字のストローク情報を座標の連続として受け取り、
+確からしい順にスコア付きでN文字の認識結果を返すだけに機能を限定しています。
+また、認識エンジンは完全に機械学習ベースであるために、文字のみならずユーザの任意のマウス・ペンストロークに対して任意の文字列をマッピングするような認識エンジンを小コスト作成することができます。
+
+<h2>主な特徴</h2>
+<ul>
+<li>機械学習アルゴリズムSVMによる高い認識精度
+<li>ポータブルでコンパクトな設計 -- POSIX/Windows (C++ STLのみに依存)
+<li>リエントラントでスレッドセーフなC/C++/Perl/Ruby/Pythonライブラリ
+<li>文字のみならず任意のマウス・ペンストロークを学習可能
+<li>実用的な認識速度 (50～100文字 / 秒)
+<li>高速な学習
+</ul>
+
+<h2>ダウンロード</h2>
+<ul>
+<li>Zinniaはフリーソフトウェアです. 修正BSDライセンスに従って本ソフトウェ
+    アを使用,再配布することができます.
+
+<li><b>Zinnia</b> 本体
+<h3>Source</a></h3>
+<ul>
+<li>zinnia-0.05.tar.gz:<a href="src">ダウンロード</a>
+<li>認識モデルは含まれていません. 実際の認識をするには別途認識モデルが必要です.
+</ul>
+
+<h3>Binary package for MS-Windows</a></h3>
+<ul>
+<li>zinnia-0.05.zip:<a href="src">ダウンロード</a>
+</ul>
+
+<li><b>認識用モデルファイル</b>
+<h3>Zinnia-Tomoe</h3>
+<ul>
+<li>Tomoeに付属の手書きデータを使って作成したモデルファイルです。<a href="src">ダウンロード</a></li>
+<li>認識モデルファイルのライセンスは、Tomoeに準拠します</li>
+</ul>
+</ul>
+<h2>インストール</h2>
+<h3>UNIX</a></h3>
+<p>一般的なフリーソフトウェアと同じ手順でインストールできます.</p>
+<pre>
+ % tar zxfv zinnia-X.X.tar.gz
+ % cd zinnia-X.X
+ % ./configure
+ % make
+ % su
+ # make install
+</pre>
+</li>
+
+<p>認識モデルのインストール</p>
+<pre>
+% tar zxfv zinnia-tomoe-XXXX.tar.gz
+% zinnia-tomoe-XXXX
+% ./configure
+% make
+% su
+# make install
+</pre>
+
+<h3>Windows</h3>
+<p>コンパイル済みのDLLと実行型式がzipファイルの中に含まれています。
+認識用モデルは含まれていません。認識モデルをダウンロードし、
+テキストモデルファイルをzinnia本体と同じディレクトリに展開した後、以下のコマンドを実行しモデルを生成してください。
+<pre>
+bin\zinnia_convert.exe handwriting-ja.model.txt handwriting-ja.model
+bin\zinnia_convert.exe handwriting-zh_CN.model.txt handwriting-zh_CN.model
+</pre>
+
+<h2>使い方 (認識)</h2>
+<p>ZinniaはC/C++のライブラリを提供しています。また, SWIGを通して
+Perl/Ruby/Python から利用することも可能です。</p>
+<h3>C言語によるサンプル</h3>
+<pre>
+#include &lt;stdio.h&gt;
+#include "zinnia.h"
+
+int main(int argc, char **argv) {
+  size_t i;
+  zinnia_recognizer_t *recognizer;
+  zinnia_character_t *character;
+  zinnia_result_t *result;
+
+  recognizer = zinnia_recognizer_new();
+
+  if (!zinnia_recognizer_open(recognizer, "/usr/local/lib/zinnia/model/tomoe/handwriting-ja.model")) {
+    fprintf(stderr, "ERROR: %s\n", zinnia_recognizer_strerror(recognizer));
+    return -1;
+  }
+
+  zinnia_character_t  *character  = zinnia_character_new();
+  zinnia_character_clear(character);
+  zinnia_character_set_width(character, 300);
+  zinnia_character_set_height(character, 300);
+  zinnia_character_add(character, 0, 51, 29);
+  zinnia_character_add(character, 0, 117, 41);
+  zinnia_character_add(character, 1, 99, 65);
+  zinnia_character_add(character, 1, 219, 77);
+  zinnia_character_add(character, 2, 27, 131);
+  zinnia_character_add(character, 2, 261, 131);
+  zinnia_character_add(character, 3, 129, 17);
+  zinnia_character_add(character, 3, 57, 203);
+  zinnia_character_add(character, 4, 111, 71);
+  zinnia_character_add(character, 4, 219, 173);
+  zinnia_character_add(character, 5, 81, 161);
+  zinnia_character_add(character, 5, 93, 281);
+  zinnia_character_add(character, 6, 99, 167);
+  zinnia_character_add(character, 6, 207, 167);
+  zinnia_character_add(character, 6, 189, 245);
+  zinnia_character_add(character, 7, 99, 227);
+  zinnia_character_add(character, 7, 189, 227);
+  zinnia_character_add(character, 8, 111, 257);
+  zinnia_character_add(character, 8, 189, 245);
+
+  result = zinnia_recognizer_classify(recognizer, character, 10);
+  if (result == NULL) {
+    fprintf(stderr, "%s\n", zinnia_recognizer_strerror(recognizer));
+    return -1;
+  }
+  
+  for (i = 0; i &lt; zinnia_result_size(result); ++i) {
+    fprintf(stdout, "%s\t%f\n",
+            zinnia_result_value(result, i),
+            zinnia_result_score(result, i));
+  }
+
+  zinnia_result_destroy(result);
+  zinnia_character_destroy(character);
+  zinnia_recognizer_destroy(recognizer);
+
+  return 0;
+}
+</pre>
+</p>
+<pre>
+% gcc example.c -lzinnia -o zinnia_sample
+% ./zinnia_sample
+</pre>
+<h3>簡単な解説</h3>
+<ul>
+<li>認識エンジンオブジェクトの作成
+<li>認識モデルファイルのオープン</li>
+<li>文字を格納する character オブジェクトの作成
+<li>character のクリア
+<li>キャンバスサイズの設定
+<li>ストローク情報の設定 (何画目, x座標, y座標 -- キャンバス左上が x=0, y=0)
+<li>文字認識認識.  result オブジェクトが返る. 最後の引数は何個結果を返すか
+<li>各結果の認識結果の文字と、スコアを表示. (スコア順にソート済み)
+<li>resultオブジェクトの破棄
+<li>characterオブジェクトの破棄
+<li>認識エンジンオブジェクトの破棄
+</ul>
+
+<h3>C++によるサンプル</h3>
+<pre>
+#include &lt;iostream&gt;
+#include "zinnia.h"
+
+int main(int argc, char **argv) {
+  zinnia::Recognizer *recognizer = zinnia::Recognizer::create();
+  if (!recognizer-&gt;open("/usr/local/lib/zinnia/model/tomoe/handwriting-ja.model")) {
+    std::cerr &lt;&lt; recognizer-&gt;what() &lt;&lt; std::endl;
+    return -1;
+  }
+
+  zinnia::Character *character = zinnia::Character::create();
+  character-&gt;clear();
+  character-&gt;set_width(300);
+  character-&gt;set_height(300);
+  character-&gt;add(0, 51, 29);
+  character-&gt;add(0, 117, 41);
+  character-&gt;add(1, 99, 65);
+  character-&gt;add(1, 219, 77);
+  character-&gt;add(2, 27, 131);
+  character-&gt;add(2, 261, 131);
+  character-&gt;add(3, 129, 17);
+  character-&gt;add(3, 57, 203);
+  character-&gt;add(4, 111, 71);
+  character-&gt;add(4, 219, 173);
+  character-&gt;add(5, 81, 161);
+  character-&gt;add(5, 93, 281);
+  character-&gt;add(6, 99, 167);
+  character-&gt;add(6, 207, 167);
+  character-&gt;add(6, 189, 245);
+  character-&gt;add(7, 99, 227);
+  character-&gt;add(7, 189, 227);
+  character-&gt;add(8, 111, 257);
+  character-&gt;add(8, 189, 245);
+
+  zinnia::Result *result = recognizer-&gt;classify(*character, 10);
+  if (!result) {
+     std::cerr &lt;&lt; recognizer-&gt;what() &lt;&lt; std::endl;
+     return -1;
+  }
+  for (size_t i = 0; i &lt; result-&gt;size(); ++i) {
+    std::cout &lt;&lt; result-&gt;value(i) &lt;&lt; "\t" &lt;&lt; result-&gt;score(i) &lt;&lt; std::endl;
+  }
+  delete result;
+
+  delete character;
+  delete recognizer;
+
+  return 0;
+}
+</pre>
+
+<p>zinniaはオンライン手書き文字認識が行えるため、
+ユーザの不完全な入力(入力途中の文字)についてもある程度認識可能です。
+
+<h3>S式による文字表現</h3>
+<p>文字クラス(zinnia_character_t / zinnia::Character)の座標情報はS式形式の文字列として設定することができます</p>
+
+<pre>
+(character
+ (width キャンバス幅)
+ (height キャンバス高さ)
+ (strokes
+   ((0画目x 0画目y) ... (0画目x 0画目y))
+   ((1画目x 0画目y) ... (1画目x 1画目y))
+   ((2画目x 2画目y) ... (2画目x 2画目y))
+   ...))
+</pre>
+
+<p>例</p>
+<pre>
+static const char sexp[] = "(character (width 1000)(height 1000)(strokes ((243 273)(393 450))((700 253)(343 486)(280 716)(393 866)(710 880))))";
+zinnia_character_t *character = zinnia_character_new();
+zinnia_character_parse(character, sexp);
+</pre>
+<pre>
+static const char sexp[] = "(character (width 1000)(height 1000)(strokes ((243 273)(393 450))((700 253)(343 486)(280 716)(393 866)(710 880))))";
+zinnia::Character *character = zinnia::Character::create();
+character->parse(sexp);
+</pre>
+
+<h2>文字の学習</h2>
+<p>
+学習には、学習させたい文字とそれに対応するストローク情報が必要です。
+学習データは以下のようなS式で記述します。1つの文字に複数のストローク情報
+があっても問題ありません。一般的にデータが増えれば増えるほど認識精度が向
+上します。Zinniaはバッチ学習のみをサポートします。</p>
+
+<p>S式フォーマット</p>
+<pre>
+(character
+ (value 認識したい文字)
+ (width キャンバス幅)
+ (height キャンバス高さ)
+ (strokes
+   ((0画目x 0画目y) ... (0画目x 0画目y))
+   ((1画目x 0画目y) ... (1画目x 1画目y))
+   ((2画目x 2画目y) ... (2画目x 2画目y))
+   ...))
+</pre>
+
+<p>例</p>
+<pre>
+(character (value あ) (width 300) (height 300) (strokes ((54 58)(249 68)) ((147 10)(145 201)(182 252)) ((224 103)(149 230)(82 240)(53 204)(86 149)(182 139)(240 172)(248 224)(228 250))))
+(character (value い) (width 300) (height 300) (strokes ((56 63)(43 213)(67 259)(94 243)) ((213 66)(231 171)(208 217))))
+(character (value う) (width 300) (height 300) (strokes ((102 35)(187 45)) ((73 121)(167 105)(206 139)(198 211)(135 275))))
+(character (value え) (width 300) (height 300) (strokes ((140 19)(162 38)) ((62 105)(208 100)(51 263)(128 205)(188 268)(260 252))))
+(character (value お) (width 300) (height 300) (strokes ((64 94)(240 98)) ((148 35)(159 129)(140 199)(105 247)(64 228)(101 161)(192 161)(222 223)(189 257)) ((223 49)(253 89))))
+</pre>
+</p>
+
+<p>例として zinnia-tomoe の中にある *.s ファイルをご覧ください。</p>
+
+<p>ファイルが準備できたら、zinnia_learn コマンドを使い、学習を行います。</p>
+
+<pre>
+% zinnia_learn train-file model-file
+...
+learning: (8/3033) 8 ....
+learning: (9/3033) 9 ...
+learning: (10/3033) 々 ............
+learning: (11/3033) 〆 ....
+learning: (12/3033) あ ....
+learning: (13/3033) い .......
+learning: (14/3033) う ...............
+learning: (15/3033) え ......................................................................................
+learning: (16/3033) お ......
+learning: (17/3033) か .......
+learning: (18/3033) き .......
+learning: (19/3033) く .......
+</pre>
+
+<p>train-file が学習データ、model-file がモデルファイルです。</p>
+
+<p>学習が正常かどうかテストを行います</p>
+<pre>
+% zinnia -m model-file < test-file
+</pre>
+<p>model-file は学習後にできあがったモデル、test-file はS式で書かれたテスト
+ファイルです。学習データそのものをテストしたい場合は、test-file を学習デー
+タにします。</p>
+
+<p>学習後,model-file.txt (テキストファイル)と model-file (バイナリファイル)が作成
+されます。テキストファイルはアーキテクチャに非依存の形式、model-fileは
+アーキテクチャに依存したモデルファイルです。zinniaの認識エンジン
+(Zinnia::Recognizer)はバイナリ形式のみを受け付けます。別のプラットホーム
+上にバイナリモデルをポーティングする場合は、ターゲットのマシンで txt
+ファイルからバイナリファイルに変換を行います。</p>
+
+<pre>
+% zinnia_convert model-file.txt model-file
+</pre>
+
+<p>また、テキストモデルをCのヘッダに変更することも可能です</p>
+<pre>
+% zinnia_convert --name=my_model --make_header model-file.txt my_model.h
+</pre>
+
+<p>ヘッダファイルを使う場合認識エンジン側では、my_model.h をincludeし、
+zinnia_recognizer_open_from_ptr() を使ってモデルをロードします。
+my_model(モデルの実態) と my_model_size(モデルのサイズ)が my_model.h に
+定義されています)
+</p>
+
+<pre>
+#include "my_model.h"
+if (!zinnia_recognizer_open_from_ptr(recognizer, my_model, my_model_size)) {
+  /* error */
+}
+</pre>
+
+<h2>モデルの圧縮</h2>
+<p>絶対値の小さい重みを省略することで、認識精度を犠牲にしながら、モデルを不可逆圧縮することができます。</p>
+<pre>
+% zinnia_convert -c 0.01 model-file.txt model1
+% zinnia_convert -c 0.001 model-file.txt model2
+% ls -h -l model*
+-rw-r--r-- 1 taku taku 3.1M 2008-07-14 12:50 model1
+-rw-r--r-- 1 taku taku  25M 2008-07-14 12:50 model2
+</pre>
+<p>c は重みの閾値です。デフォルトは 0.001 です。
+大きく設定するとよりアグレッシブに圧縮を行います。実行環境に応じて圧縮率を選択してください。</p>
+
+<h2>全APIのリスト</h2>
+<ul>
+<li><a href="doxygen/annotated.html">C++ APIクラス</a>
+<li><a href="doxygen/zinnia_8h.html">C API 関数</a>
+</ul>
+<p>
+</p>
+</body>
+</html>
