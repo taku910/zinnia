@@ -7,6 +7,7 @@
 //
 #include <vector>
 #include <iostream>
+#include <iterator>
 #include <fstream>
 #include <set>
 #include <string>
