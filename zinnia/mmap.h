@@ -112,8 +112,8 @@ template <class T> class Mmap {
       CHECK_CLOSE_FALSE(false) << "unknown open mode:" << filename;
     }
 
-    hFile = CreateFile(filename, mode1, FILE_SHARE_READ, 0,
-                       OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    hFile = CreateFileA(filename, mode1, FILE_SHARE_READ, 0,
+                        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     CHECK_CLOSE_FALSE(hFile != INVALID_HANDLE_VALUE)
         << "CreateFile() failed: " << filename;
 
