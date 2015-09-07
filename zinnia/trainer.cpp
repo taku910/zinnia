@@ -104,7 +104,7 @@ class TrainerImpl: public Trainer {
     if (!fn) {
       return false;
     }
-    x_.push_back(std::make_pair<std::string, FeatureNode *>(y, fn));
+    x_.push_back(std::make_pair(y, fn));
     return true;
   }
 
