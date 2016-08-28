@@ -21,7 +21,9 @@ extern "C" {
 
 #ifdef _WIN32
 #include <windows.h>
-#  ifdef DLL_EXPORT
+#  if defined(ZINNIA_STATIC_LIBRARY)
+#    define ZINNIA_DLL_EXTERN
+#  elif defined(DLL_EXPORT)
 #    define ZINNIA_DLL_EXTERN  __declspec(dllexport)
 #  else
 #    define ZINNIA_DLL_EXTERN  __declspec(dllimport)
